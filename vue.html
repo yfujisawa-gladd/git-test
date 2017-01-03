@@ -1,0 +1,98 @@
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>cart Vue</title>
+	<style>
+		[v-cloak] {
+			display: none;
+			/*visibility: hidden;*/
+		}
+	</style>
+</head>
+<body>
+	<div id="app" v-cloak>
+		<table>
+			<thead>
+				<tr>
+					<th>商品ID</th>
+					<th>品名</th>
+					<th>単価</th>
+					<th>個数</th>
+					<th>小計</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in items">
+					<td class="id">{{ item.id }}</td>
+					<td class="name">{{ item.name }}</td>
+					<td class="price">{{ item.price | comma }}</td>
+					<td><input type="number" class="qty" min="0" v-model="item.qty" /></td>
+					<td class="subtotal">{{ subtotal(item) | comma }}円</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">合計金額</td>
+					<td class="total">{{ total | comma }}円</td>
+				</tr>
+			</tfoot>
+		</table>
+
+		<button class="reset-btn" v-on:click="reset">Reset</button>
+		<button class="submit-btn" v-on:click="submit">Submit</button>
+	</div>
+
+
+	<!-- <script src="../test/jquery-3.1.0.min.js"></script> -->
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script>
+		// function init() {
+			var app = new Vue({
+				el: '#app',
+				data: {
+					items: [
+						{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
+						{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
+					],
+				},
+				computed: {
+					total: function () {
+						return this.items.reduce(function (a, c) { return a + c.price * c.qty; }, 0);
+					},
+				},
+				filters: {
+					comma: function (value) {
+						return value.toLocaleString();
+					},
+				},
+				methods: {
+					reset: function () {
+						this.items.forEach(function (item) {
+							item.qty = 0;
+						});
+					},
+					submit: function () {
+						console.log(this.$data.items);
+					},
+					subtotal: function (item) {
+						return item.price * item.qty;
+					},
+				},
+			});
+			// app.items = [
+			// 	{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
+			// 	{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
+			// ];
+		// }
+		// setTimeout(init, 100);
+		// init();
+		// setTimeout(function () {
+		// 	app.items = [
+		// 		{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
+		// 		{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
+		// 	];
+		// }, 300);
+
+	</script>
+</body>
+</html>
