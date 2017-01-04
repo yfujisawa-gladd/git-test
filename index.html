@@ -45,53 +45,38 @@
 	<!-- <script src="../test/jquery-3.1.0.min.js"></script> -->
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
 	<script>
-		// function init() {
-			var app = new Vue({
-				el: '#app',
-				data: {
-					items: [
-						{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
-						{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
-					],
+		var app = new Vue({
+			el: '#app',
+			data: {
+				items: [
+					{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
+					{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
+				],
+			},
+			computed: {
+				total: function () {
+					return this.items.reduce(function (a, c) { return a + c.price * c.qty; }, 0);
 				},
-				computed: {
-					total: function () {
-						return this.items.reduce(function (a, c) { return a + c.price * c.qty; }, 0);
-					},
+			},
+			filters: {
+				comma: function (value) {
+					return value.toLocaleString();
 				},
-				filters: {
-					comma: function (value) {
-						return value.toLocaleString();
-					},
+			},
+			methods: {
+				reset: function () {
+					this.items.forEach(function (item) {
+						item.qty = 0;
+					});
 				},
-				methods: {
-					reset: function () {
-						this.items.forEach(function (item) {
-							item.qty = 0;
-						});
-					},
-					submit: function () {
-						console.log(this.$data.items);
-					},
-					subtotal: function (item) {
-						return item.price * item.qty;
-					},
+				submit: function () {
+					console.log(this.$data.items);
 				},
-			});
-			// app.items = [
-			// 	{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
-			// 	{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
-			// ];
-		// }
-		// setTimeout(init, 100);
-		// init();
-		// setTimeout(function () {
-		// 	app.items = [
-		// 		{ id: 0, name: 'シャツ', price: 5000, qty: 0 },
-		// 		{ id: 1, name: 'ジャケット', price: 10000, qty: 0 }
-		// 	];
-		// }, 300);
-
+				subtotal: function (item) {
+					return item.price * item.qty;
+				},
+			},
+		});
 	</script>
 </body>
 </html>
