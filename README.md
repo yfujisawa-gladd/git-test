@@ -1,3 +1,3 @@
 # git-test
 
-https://jshindo.github.io/git-test/
+https://jshindo-gladd.github.io/git-test/
